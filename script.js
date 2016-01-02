@@ -34,7 +34,7 @@ window.onload = function() {
     //makes object a king
     this.king = false;
     this.makeKing = function () {
-      this.element.css("backgroundImage", "url('king"+this.player+".png')");
+      this.element.css("backgroundImage", "url('img/king"+this.player+".png')");
       this.king = true;
     }
     //moves the piece
@@ -115,11 +115,21 @@ window.onload = function() {
     this.remove = function () {
       //remove it and delete it from the gameboard
       this.element.css("display", "none");
-      if(this.player == 1) $('#player2').append("<div class='capturedPiece'></div>");
-      if(this.player == 2) $('#player1').append("<div class='capturedPiece'></div>");
+      if(this.player == 1) {
+        $('#player2').append("<div class='capturedPiece'></div>");
+        Board.score.player2 += 1;
+      }
+      if(this.player == 2) {
+        $('#player1').append("<div class='capturedPiece'></div>");
+        Board.score.player1 += 1;
+      }
       Board.board[this.position[0]][this.position[1]] = 0;
       //reset position so it doesn't get picked up by the for loop in the canOpponentJump method
       this.position = [];
+      var playerWon = Board.checkifAnybodyWon();
+      if(playerWon) { 
+        $('#winner').html("Player "+playerWon+" has won!");
+      }
     }
   }
   
@@ -143,6 +153,7 @@ window.onload = function() {
   //Board object - controls logistics of game
   var Board = {
     board: gameBoard,
+    score : { player1: 0, player2: 0},
     playerTurn: 1,
     tilesElement: $('div.tiles'),
     //dictionary to convert position in Board.board to the viewport units
@@ -181,7 +192,6 @@ window.onload = function() {
     },
     //check if the location has an object
     isValidPlacetoMove: function (row, column) {
-      console.log(row); console.log(column); console.log(this.board);
       if(this.board[row][column] == 0) {
         return true;
       } return false;
@@ -197,6 +207,13 @@ window.onload = function() {
         this.playerTurn = 1;
         $('.turn').css("background", "linear-gradient(to right, #BEEE62 50%, transparent 50%)");
       }
+    },
+    checkifAnybodyWon: function () {
+      if(this.score.player1 == 12) {
+        return 1;
+      } else if(this.score.player2 == 12) {
+        return 2;
+      } return false;
     },
     //reset the game
     clear: function () {
