@@ -1,4 +1,3 @@
-aiplayer = 1 // 1 for red (black), 2 for blue (white)
 window.onload = function() {    
   //The initial setup
   var gameBoard = [ 
@@ -184,7 +183,6 @@ window.onload = function() {
           }
         }
       }
-      if(aiplayer == 1) this.send_to_backend()
     },
     //check if the location has an object
     isValidPlacetoMove: function (row, column) {
@@ -222,6 +220,7 @@ window.onload = function() {
         }
       }
     }, 
+    // Possibly helpful for communication with back-end. 
     str_board: function(){
       ret=""
       for(i in this.board){
@@ -239,61 +238,6 @@ window.onload = function() {
         }
       }
       return ret
-    }, 
-    send_to_backend:function(){
-      ret = this.str_board()
-      if(aiplayer == 1) ret += 'b'
-      else if (aiplayer == 2) ret += 'w'
-
-      console.log(ret)
-      var xhr = new XMLHttpRequest();
-      var url = "http://localhost:22345/reqstr"
-      xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-Type", "text/plain");
-
-      var tempthis = this
-      xhr.onreadystatechange = function () {
-        if (this.readyState != 4) return;
-
-        if (this.status == 200) {
-          //var data = JSON.parse(this.responseText)
-          var moveret = this.responseText
-          console.log(moveret)
-          movejson = JSON.parse(moveret)
-          tempthis.move_with_json(movejson)
-        }
-      };
-      xhr.send(ret);
-    }, 
-    move_with_json:function(movejson){
-      for(a_move of movejson["mov"]){
-        origin = a_move[0] 
-        dest = a_move[1]
-        console.log("from ", origin, " to ", dest)
-        var piece_origin 
-        var tile_dest
-        for(k of pieces){
-          if(k.position[0]==origin[0] && k.position[1]==origin[1]){
-            piece_origin = k
-            break
-          }
-        }
-        for(k of tiles){
-          if(k.position[0]==dest[0] && k.position[1]==dest[1]){
-            tile_dest = k
-            break
-          }
-        }
-        if(movejson["act"]=="jump"){
-          for(k of pieces){
-            if(2*k.position[0]==piece_origin.position[0]+tile_dest.position[0] &&
-            2*k.position[1]==piece_origin.position[1]+tile_dest.position[1])
-              k.remove()
-          }
-        }
-          piece_origin.move(tile_dest)
-      }
-      this.changePlayerTurn()
     }
   }
   
@@ -343,7 +287,6 @@ window.onload = function() {
                piece.element.addClass('selected');
             } else {
               Board.changePlayerTurn()
-              if(Board.playerTurn==aiplayer) Board.send_to_backend()
             }
           } 
           //if it's regular then move it if no jumping is available
@@ -351,7 +294,6 @@ window.onload = function() {
           if(!piece.canJumpAny()) {
             piece.move(tile);
             Board.changePlayerTurn()
-            if(Board.playerTurn==aiplayer) Board.send_to_backend()
           } else {
             alert("You must jump when possible!");
           }
