@@ -179,7 +179,7 @@ div#board {
 .selection {
   display: flex;
 }
-.selection div {
+.selection button {
   width: 33%;
 }
 /*# sourceMappingURL=style.css.map */
