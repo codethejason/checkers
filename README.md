@@ -10,4 +10,4 @@ If you find any bugs, please make a Pull Request or an Issue.
 
 
 ## Live Demo
-[DEMO](https://android-jcpp-servo.github.io/checkers/index.html)
+[DEMO](https://android-jcpp-servo.github.io/checkers/)
