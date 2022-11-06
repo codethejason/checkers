@@ -4,8 +4,6 @@ window.addEventListener('load', () => {
     let player1pieces = document.querySelectorAll('.player1pieces .piece');
     let player2pieces = document.querySelectorAll('.player2pieces .piece');
 
-    console.log('player1pieces', player1pieces)
-
     // GET PIECE COLOR BUTTONS
     let redBlue = document.getElementById('circle_redblue');
     let whiteBrown = document.getElementById('circle_whitebrown');
