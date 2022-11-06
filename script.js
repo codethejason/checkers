@@ -226,9 +226,9 @@ window.onload = function () {
     },
     checkifAnybodyWon: function () {
       if (this.score.player1 == 12) {
-        return 1;
-      } else if (this.score.player2 == 12) {
         return 2;
+      } else if (this.score.player2 == 12) {
+        return 1;
       }
       return false;
     },
