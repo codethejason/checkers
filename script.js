@@ -193,13 +193,13 @@ window.onload = function () {
       }
     },
     tileRender: function (row, column, countTiles) {
-      this.tilesElement.append("<div class='tile' id='tile" + countTiles + "' style='top:" + this.dictionary[row] + ";left:" + this.dictionary[column] + ";'></div>");
+      this.tilesElement.append("<div ondragover='allowDrop(event)' class='tile' id='tile" + countTiles + "' style='top:" + this.dictionary[row] + ";left:" + this.dictionary[column] + ";'></div>");
       tiles[countTiles] = new Tile($("#tile" + countTiles), [parseInt(row), parseInt(column)]);
       return countTiles + 1
     },
 
     playerPiecesRender: function (playerNumber, row, column, countPieces) {
-      $(`.player${playerNumber}pieces`).append("<div class='piece' id='" + countPieces + "' style='top:" + this.dictionary[row] + ";left:" + this.dictionary[column] + ";'></div>");
+      $(`.player${playerNumber}pieces`).append("<div draggable='true' class='piece' id='" + countPieces + "' style='top:" + this.dictionary[row] + ";left:" + this.dictionary[column] + ";'></div>");
       pieces[countPieces] = new Piece($("#" + countPieces), [parseInt(row), parseInt(column)]);
       return countPieces + 1;
     },
@@ -226,9 +226,9 @@ window.onload = function () {
     },
     checkifAnybodyWon: function () {
       if (this.score.player1 == 12) {
-        return 1;
-      } else if (this.score.player2 == 12) {
         return 2;
+      } else if (this.score.player2 == 12) {
+        return 1;
       }
       return false;
     },
@@ -281,7 +281,7 @@ window.onload = function () {
   ***/
 
   //select the piece on click if it is the player's turn
-  $('.piece').on("click", function () {
+  $('.piece').on("click dragstart", function () {
     var selected;
     var isPlayersTurn = ($(this).parent().attr("class").split(' ')[0] == "player" + Board.playerTurn + "pieces");
     if (isPlayersTurn) {
@@ -308,7 +308,8 @@ window.onload = function () {
   });
 
   //move piece when tile is clicked
-  $('.tile').on("click", function () {
+  $('.tile').on("click drop", function (e) {
+		e.preventDefault()
     //make sure a piece is selected
     if ($('.selected').length != 0) {
       //find the tile object being clicked
