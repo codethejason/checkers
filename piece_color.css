@@ -1,0 +1,6 @@
+.selection {
+    display: flex;
+}
+.selection button {
+    width: 33%;
+}
