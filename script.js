@@ -162,7 +162,7 @@ window.onload = function () {
       player1: 0,
       player2: 0
     },
-    playerTurn: 1,
+    playerTurn: 2,
     jumpexist: false,
     continuousjump: false,
     tilesElement: $('div.tiles'),
