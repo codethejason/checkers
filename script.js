@@ -214,11 +214,11 @@ window.onload = function () {
     },
     //change the active player - also changes div.turn's CSS
     changePlayerTurn: function () {
-      if (this.playerTurn == 2) {
-        this.playerTurn = 1;
+      if (this.playerTurn == 1) {
+        this.playerTurn = 2;
         $('.turn').css("background", "linear-gradient(to right, transparent 50%, #BEEE62 50%)");
       } else {
-        this.playerTurn = 2;
+        this.playerTurn = 1;
         $('.turn').css("background", "linear-gradient(to right, #BEEE62 50%, transparent 50%)");
       }
       this.check_if_jump_exist()
